@@ -87,7 +87,7 @@ If your target data store supports primary key or unique constraints (like a rel
 
 ### Spark DataFrame/Dataset API
 
-Use the .dropDuplicates() or .distinct() transformations to remove duplicate records during data processing. This is particularly effective if you can identify duplicates based on specific columns.
+Use the **.dropDuplicates()** or **.distinct()** transformations to remove duplicate records during data processing. This is particularly effective if you can identify duplicates based on specific columns.
 
 ## Incremental Loads
 
