@@ -152,6 +152,49 @@ df_distinct.show()
 
 Implement a system of **watermarking** to process only new or updated records since the last successful ETL run. Use a timestamp or incrementing column in my source data to filter records.
 
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, window
+
+# Initialize SparkSession
+spark = SparkSession.builder \
+    .appName("WatermarkingExample") \
+    .getOrCreate()
+
+# Read from a streaming source, e.g., Kafka
+df = spark \
+    .readStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "host1:port1,host2:port2") \
+    .option("subscribe", "topic1") \
+    .load()
+
+# Assuming the value column contains the message in string format and extracting eventTime from it
+# This part needs customization based on your actual data format and structure
+df = df.selectExpr("CAST(value AS STRING)", "timestamp AS eventTime")
+
+# Define watermarking to handle late-arriving data
+watermarkedDF = df \
+    .withWatermark("eventTime", "10 minutes")  # Adjust according to your late data threshold
+
+# Perform windowed operation
+aggregatedDF = watermarkedDF \
+    .groupBy(
+        window(col("eventTime"), "5 minutes"),  # Window duration
+        "someGroupingColumn")  # A column to group by, adjust as necessary
+    .count()
+
+# Write stream output to a console sink (for demonstration; use appropriate sink for production)
+query = aggregatedDF \
+    .writeStream \
+    .outputMode("update") \
+    .format("console") \
+    .start()
+
+# Wait for the streaming query to terminate (manually or due to an error)
+query.awaitTermination()
+```
+
 ### Change Data Capture (CDC)
 
 Leverage CDC techniques if my source system supports it. CDC allows me to capture only changes (inserts, updates, deletions) since the last extraction.
