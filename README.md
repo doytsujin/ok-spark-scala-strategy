@@ -313,7 +313,7 @@ Use database features like upserts (insert or update) or merge operations to han
 
 
 
-# 3 How would you prevent breaking production when making changes to existing pipelines?
+# How would you prevent breaking production when making changes to existing pipelines?
 
 Here are several approaches I can take to prevent breaking production when implementing changes to ETL pipelines with Spark and Scala and PySpark.
 
