@@ -116,6 +116,35 @@ df.show()
 print("\nDataFrame after removing duplicates:")
 df_unique.show()
 ```
+Another example of distinct function for deduplication.
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName('DistinctExample').getOrCreate()
+
+# Sample data
+data = [("John", 28, "New York"),
+        ("Anna", 23, "Los Angeles"),
+        ("John", 28, "New York"),
+        ("Mike", 22, "Chicago"),
+        ("Anna", 23, "Los Angeles")]
+
+# Columns
+columns = ["Name", "Age", "City"]
+
+# Creating a DataFrame
+df = spark.createDataFrame(data, schema=columns)
+
+# Using distinct to remove duplicates
+df_distinct = df.distinct()
+
+print("Original DataFrame:")
+df.show()
+print("\nDataFrame after removing duplicates using distinct:")
+df_distinct.show()
+```
 
 ## Incremental Loads
 
