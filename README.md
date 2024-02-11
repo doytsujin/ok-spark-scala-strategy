@@ -179,9 +179,9 @@ For testing, use mocked or anonymized data that reflects production data to unco
 
 ## Continuous Integration and Continuous Deployment (CI/CD)
 
-Implement CI/CD pipelines to automate the testing and deployment processes. This ensures that any changes undergo a standardized testing procedure before being deployed to production.
+* Implement CI/CD pipelines to automate the testing and deployment processes. This ensures that any changes undergo a standardized testing procedure before being deployed to production.
 
-Use feature flags or branch-based deployments to gradually introduce changes.
+* Use feature flags or branch-based deployments to gradually introduce changes.
 
 ## Monitoring and Alerting
 
