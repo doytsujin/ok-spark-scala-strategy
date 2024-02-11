@@ -1,5 +1,5 @@
 
-#ApacheSpark #Scala #ETLpipeline #DataValidation #AutomatedAlerts #Logging #DataCleaning #.fillna() #.dropna() #SchemaEnforcement #DataQualityChecks #PrimaryKey #UniqueIdentifier #.dropDuplicates() #.distinct() #Watermarking #ChangeDataCapture #Checkpoints #BloomFilters #DistributedCaching #VersionControl #UnitTesting #IntegrationTesting #ContinuousIntegration #ContinuousDeployment
+#ApacheSpark #Scala #PySpark #ETLpipeline #DataValidation #AutomatedAlerts #Logging #DataCleaning #.fillna() #.dropna() #SchemaEnforcement #DataQualityChecks #PrimaryKey #UniqueIdentifier #.dropDuplicates() #.distinct() #Watermarking #ChangeDataCapture #Checkpoints #BloomFilters #DistributedCaching #VersionControl #UnitTesting #IntegrationTesting #ContinuousIntegration #ContinuousDeployment
 
 # How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
 
@@ -141,7 +141,7 @@ Use database features like upserts (insert or update) or merge operations to han
 
 # 3 How would you prevent breaking production when making changes to existing pipelines?
 
-Here are several approaches I can take to prevent breaking production when implementing changes to ETL pipelines with Spark and Scala.
+Here are several approaches I can take to prevent breaking production when implementing changes to ETL pipelines with Spark and Scala and PySpark.
 
 ## Version Control and Code Reviews
 
