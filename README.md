@@ -93,7 +93,7 @@ Use the **.dropDuplicates()** or **.distinct()** transformations to remove dupli
 
 ### Watermarking
 
-Implement a system of watermarking to process only new or updated records since the last successful ETL run. Use a timestamp or incrementing column in my source data to filter records.
+Implement a system of **watermarking** to process only new or updated records since the last successful ETL run. Use a timestamp or incrementing column in my source data to filter records.
 
 ### Change Data Capture (CDC)
 
@@ -103,7 +103,7 @@ Leverage CDC techniques if my source system supports it. CDC allows me to captur
 
 ### Checkpoints 
 
-Maintain checkpoints or logs of processed data. Before processing, check if the data has already been processed by comparing it against my checkpoints.
+Maintain **checkpoints** or logs of processed data. Before processing, check if the data has already been processed by comparing it against my checkpoints.
 
 ### Idempotence
 
@@ -117,7 +117,7 @@ Use probabilistic data structures like **Bloom** filters for fast checks on whet
 
 ### Distributed Caching 
 
-Implement distributed caching mechanisms to store processed record identifiers. Check against this cache before processing records.
+Implement **distributed caching** mechanisms to store processed record identifiers. Check against this cache before processing records.
 
 ## Handling Late Arriving Data
 
