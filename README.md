@@ -1,4 +1,29 @@
 
+#ApacheSpark #Scala
+ETL pipeline
+Data validation
+Automated alerts
+Logging
+Data cleaning
+.fillna()
+.dropna()
+Schema enforcement
+Data quality checks
+Primary key
+Unique identifier
+.dropDuplicates()
+.distinct()
+Watermarking
+Change Data Capture (CDC)
+Checkpoints
+Bloom filters
+Distributed caching
+Version control
+Unit testing
+Integration testing
+Continuous Integration (CI)
+Continuous Deployment (CD)
+
 # How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
 
 This requires a strategic approach to ensure data quality and reliability.
