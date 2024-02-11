@@ -1,5 +1,5 @@
 
-# 1 How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
+# How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
 
 This requires a strategic approach to ensure data quality and reliability.
 
