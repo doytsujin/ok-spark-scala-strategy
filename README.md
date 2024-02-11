@@ -89,6 +89,34 @@ If target data store supports primary key or unique constraints (like a relation
 
 Use the **.dropDuplicates()** or **.distinct()** transformations to remove duplicate records during data processing. This is particularly effective if I can identify duplicates based on specific columns.
 
+```python
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName('DeduplicationExample').getOrCreate()
+
+# Sample data
+data = [("John", 28, "New York"),
+        ("Anna", 23, "Los Angeles"),
+        ("John", 28, "New York"),
+        ("Mike", 22, "Chicago"),
+        ("Anna", 23, "Los Angeles")]
+
+# Columns
+columns = ["Name", "Age", "City"]
+
+# Creating a DataFrame
+df = spark.createDataFrame(data, schema=columns)
+
+# Dropping duplicates
+df_unique = df.dropDuplicates()
+
+print("Original DataFrame:")
+df.show()
+print("\nDataFrame after removing duplicates:")
+df_unique.show()
+```
+
 ## Incremental Loads
 
 ### Watermarking
