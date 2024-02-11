@@ -156,6 +156,80 @@ Implement a system of **watermarking** to process only new or updated records si
 
 Leverage CDC techniques if my source system supports it. CDC allows me to capture only changes (inserts, updates, deletions) since the last extraction.
 
+#### Using Spark Structured Streaming
+
+Apache Spark Structured Streaming provides a high-level abstraction for stream processing that can be utilized for CDC. You can read change data as a stream from sources like Kafka, which can capture changes from databases using connectors like Debezium.
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("CDC Example").getOrCreate()
+
+# Assuming Kafka is used to capture changes and stream them
+df = spark \
+  .readStream \
+  .format("kafka") \
+  .option("kafka.bootstrap.servers", "host1:port1,host2:port2") \
+  .option("subscribe", "your-topic") \
+  .load()
+
+# Process your stream here
+# ...
+
+df.writeStream \
+  .outputMode("append") \
+  .format("yourOutputFormat") \
+  .start() \
+  .awaitTermination()
+```
+
+#### Delta Lake
+
+Delta Lake is an open-source storage layer that brings ACID transactions to Apache Spark and big data workloads. It's particularly well-suited for CDC, as it allows for table auditing, versioning, and rollback, which are crucial for capturing and applying changes.
+
+```python
+from delta.tables import *
+
+# Assuming a Delta Lake table is being used
+deltaTable = DeltaTable.forPath(spark, "/path/to/delta-table")
+
+# Read change data, assuming it's coming from some source like Kafka
+changeDataDF = spark.read.format("sourceFormat").load("path/to/change/data")
+
+# Apply changes using merge
+deltaTable.alias("target").merge(
+    changeDataDF.alias("source"),
+    "target.key = source.key") \
+  .whenMatchedUpdate(set={"value": "source.value"}) \
+  .whenNotMatchedInsert(values={"key": "source.key", "value": "source.value"}) \
+  .execute()
+```
+  
+#### Custom Implementation
+
+For specific use cases or when using data sources without direct Spark integration, you might need to implement a custom CDC mechanism. This could involve reading from a log table, timestamp-based querying, or using APIs provided by the source database to fetch changes and then processing them with PySpark.
+
+```python
+# Example of timestamp-based querying for changes
+from pyspark.sql import SparkSession
+from datetime import datetime, timedelta
+
+spark = SparkSession.builder.appName("Custom CDC").getOrCreate()
+
+last_processed = datetime.now() - timedelta(days=1)
+current_time = datetime.now()
+
+changedDF = spark.read.format("jdbc").options(
+    url="jdbc:yourDatabaseUrl",
+    dbtable="(SELECT * FROM yourTable WHERE last_updated BETWEEN {} AND {}) AS changes".format(last_processed, current_time),
+    user="yourUser",
+    password="yourPassword"
+).load()
+
+# Process the changes
+# ...
+```
+
 ## State Management
 
 ### Checkpoints 
