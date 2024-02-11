@@ -29,7 +29,7 @@ Investigate the cause of the issue. Is it due to an error in data ingestion, a p
 
 ### Data Cleaning
 
-For corrupt data, implement data cleaning steps where feasible. Apache Spark provides functions for dealing with missing values, such as .fillna(), .dropna(), or custom transformation functions.
+For corrupt data, implement data cleaning steps where feasible. Apache Spark provides functions for dealing with missing values, such as **.fillna()**, **.dropna()**, or custom transformation functions.
 
 ### Fallback Values
 
@@ -113,7 +113,7 @@ Ensure that my processing logic is idempotent. This means processing the same da
 
 ### Bloom Filters
 
-Use probabilistic data structures like Bloom filters for fast checks on whether a record has been processed. Note that Bloom filters may have a small probability of false positives.
+Use probabilistic data structures like **Bloom** filters for fast checks on whether a record has been processed. Note that **Bloom** filters may have a small probability of false positives.
 
 ### Distributed Caching 
 
