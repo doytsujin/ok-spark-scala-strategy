@@ -37,11 +37,11 @@ In some cases, I might use fallback values for missing data, especially if the m
 
 ### Data Repair
 
-If possible, correct the corrupt data by fetching it again from the source or repairing it manually if the issue is identified and isolated.
+If possible, I might correct the corrupt data by fetching it again from the source or repairing it manually if the issue is identified and isolated.
 
 ### Exclusion
 
-For irreparable or highly corrupt data that might impact data quality, consider excluding it from the dataset with an option to process it separately once the issue is resolved.
+For irreparable or highly corrupt data that might impact data quality, I can consider excluding it from the dataset with an option to process it separately once the issue is resolved.
 
 ## Prevention
 
