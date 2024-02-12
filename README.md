@@ -7,12 +7,40 @@ This requires a strategic approach to ensure data quality and reliability.
 
 ```mermaid
 graph TD
-    A[Strategic Approach to Handling Missing/Corrupt Data] --> B[Detection and Logging]
-    B --> C[Automated Alerts]
-    C --> D[Example: PySpark Code for Alerting]
+    A[Document Overview: Handling ETL Pipelines] --> B[Dealing with Missing/Corrupt Data]
+    A --> C[Schema Validation]
+    A --> D[Data Quality Checks]
+    A --> E[Handling Duplicates]
+    A --> F[Preventing Production Issues]
+
+    B --> B1[Detection and Logging]
+    B --> B2[Handling Strategies]
+    B --> B3[Prevention]
+    B --> B4[Documentation and Communication]
+
+    C --> C1[Initialize Spark Session]
+    C --> C2[Define Expected Schema]
+    C --> C3[Load Data with Schema Validation]
+
+    D --> D1[Data Quality Check Functions]
+    D --> D2[Example Validation and Alerting]
+
+    E --> E1[Use Primary Key/Unique Identifier]
+    E --> E2[Deduplication During Data Ingestion]
+    E --> E3[Incremental Loads]
+    E --> E4[State Management]
+
+    F --> F1[Version Control and Code Reviews]
+    F --> F2[Testing]
+    F --> F3[Environment Isolation]
+    F --> F4[CI/CD]
+    F --> F5[Monitoring and Alerting]
+    F --> F6[Rollback Strategies]
+    F --> F7[Feature Toggling]
+    F --> F8[Documentation and Communication]
 
     classDef default fill:#f9f,stroke:#333,stroke-width:2px;
-    class A,B,C,D default;
+    class A,B,C,D,E,F,B1,B2,B3,B4,C1,C2,C3,D1,D2,E1,E2,E3,E4,F1,F2,F3,F4,F5,F6,F7,F8 default;
 ```
 
 ## Detection and Logging
