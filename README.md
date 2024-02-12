@@ -524,6 +524,60 @@ process_data(df)
 
 Use probabilistic data structures like **Bloom** filters for fast checks on whether a record has been processed. Note that **Bloom** filters may have a small probability of false positives.
 
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import udf
+from pyspark.sql.types import BooleanType
+from bitarray import bitarray
+import mmh3
+
+# Define a simple Bloom filter class
+class SimpleBloomFilter:
+    def __init__(self, size, hash_count):
+        self.size = size
+        self.hash_count = hash_count
+        self.bit_array = bitarray(size)
+        self.bit_array.setall(0)
+    
+    def add(self, item):
+        for i in range(self.hash_count):
+            index = mmh3.hash(item, i) % self.size
+            self.bit_array[index] = True
+    
+    def check(self, item):
+        for i in range(self.hash_count):
+            index = mmh3.hash(item, i) % self.size
+            if self.bit_array[index] == False:
+                return False
+        return True
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("BloomFilterExample").getOrCreate()
+
+# Example dataset
+data = [("item1",), ("item2",), ("item3",)] # Extend or replace this with your actual data
+df = spark.createDataFrame(data, ["item"])
+
+# Initialize and populate the Bloom filter
+bloom_filter = SimpleBloomFilter(size=100000, hash_count=3)
+for item in data:
+    bloom_filter.add(item[0])
+
+# Broadcast the Bloom filter
+bf_broadcast = spark.sparkContext.broadcast(bloom_filter)
+
+# Define a UDF to wrap the Bloom filter check
+def bf_check(item):
+    return bf_broadcast.value.check(item)
+
+bf_check_udf = udf(bf_check, BooleanType())
+
+# Filter DataFrame using the Bloom filter
+filtered_df = df.filter(bf_check_udf(df["item"]))
+
+filtered_df.show()
+```
+
 ### Distributed Caching 
 
 Implement **distributed caching** mechanisms to store processed record identifiers. Check against this cache before processing records.
