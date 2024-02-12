@@ -5,6 +5,16 @@
 
 This requires a strategic approach to ensure data quality and reliability.
 
+```mermaid
+graph TD
+    A[Strategic Approach to Handling Missing/Corrupt Data] --> B[Detection and Logging]
+    B --> C[Automated Alerts]
+    C --> D[Example: PySpark Code for Alerting]
+
+    classDef default fill:#f9f,stroke:#333,stroke-width:2px;
+    class A,B,C,D default;
+```
+
 ## Detection and Logging
 
 ### Automated Alerts
