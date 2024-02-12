@@ -668,6 +668,63 @@ spark.stop()
 
 Design my ETL to handle late-arriving data gracefully. This might involve reprocessing data for a certain period (lookback window) or upserting records based on their unique identifiers.
 
+#### Understand Your Data and Define Late-Arrival Logic
+
+* Identify Key Fields: Determine the unique identifiers for your records (e.g., primary keys) and any timestamp or date fields that indicate when the data was generated or modified.
+* Define Late Arrival Window: Decide on the lookback period for your data. This could be based on your data generation cycle, expected delay patterns, and the impact on downstream analytics.
+
+#### Read Your Data
+
+Assuming you're working with data stored in a distributed file system or a database accessible from Spark:
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("LateArrivingDataETL").getOrCreate()
+
+# Replace with your data source details
+df = spark.read.format("your_input_format").load("path_to_your_data")
+```
+
+#### Implement Lookback Logic
+
+To handle late-arriving data, I can implement a process that reprocesses data within the defined lookback window:
+
+``` python
+from pyspark.sql import functions as F
+
+# Define the lookback period (e.g., 7 days)
+lookback_window_days = 7
+
+# Assuming your dataframe has a 'timestamp' column indicating data generation time
+current_processing_date = F.current_date()
+lookback_date = F.date_sub(current_processing_date, lookback_window_days)
+
+# Filter records within the lookback window
+df_lookback = df.filter(F.col("timestamp") >= lookback_date)
+```
+
+#### Upsert Records
+
+Upserting (updating existing records or inserting new ones) can be complex in Spark due to its immutable nature. However, I can achieve this by a combination of reading existing data, merging with new data, and writing the result:
+
+``` python
+# Assuming 'df_existing' is your existing dataset and 'df_new' is the new or updated data
+df_existing = spark.read.format("your_format").load("path_to_existing_data")
+
+# Merge strategy depends on your data schema and unique keys. Here's a simple approach using join
+df_combined = df_existing.alias("existing").join(df_new.alias("new"), "unique_id", "outer") \
+    .selectExpr("new.*", "coalesce(new.timestamp, existing.timestamp) as timestamp")
+
+# Now, df_combined contains updated records with late-arriving data handled. Write this back to storage:
+df_combined.write.format("your_output_format").mode("overwrite").save("path_to_output_data")
+```
+
+#### Optimize and Automate
+
+* Optimize Reads and Writes: Depending on my storage solution, I may need to optimize read and write operations for efficiency, such as using partitioning or bucketing.
+* Automate the Process: Schedule my ETL job (e.g., using Apache Airflow or a similar tool) to run at a frequency that aligns with my data generation cycle and late-arrival window.
+
 ## Data Quality Checks
 
 ### Post-Processing Checks
