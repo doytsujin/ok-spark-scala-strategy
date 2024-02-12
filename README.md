@@ -31,6 +31,61 @@ Investigate the cause of the issue. Is it due to an error in data ingestion, a p
 
 For corrupt data, implement data cleaning steps where feasible. Apache Spark provides functions for dealing with missing values, such as **.fillna()**, **.dropna()**, or custom transformation functions.
 
+#### Using fillna
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("data_cleaning_example").getOrCreate()
+
+# Sample DataFrame with missing values
+df = spark.createDataFrame([
+    (1, None, 'A'),
+    (2, 'value2', 'B'),
+    (3, None, 'C')
+], ["id", "value", "category"])
+
+# Fill missing values in 'value' column with 'unknown'
+df_filled = df.fillna({'value': 'unknown'})
+
+df_filled.show()
+```
+
+#### Using dropna
+
+```python
+# Drop rows where any value is missing in the specified columns
+df_no_missing = df.dropna(how='any', subset=['value'])
+
+df_no_missing.show()
+
+# Drop rows where all specified columns are missing
+df_no_missing_all = df.dropna(how='all', subset=['value', 'category'])
+
+df_no_missing_all.show()
+```
+
+#### Using custom transformation functions withColumn
+
+```python
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
+
+# Example UDF to transform data
+def custom_transform(value):
+    # Example transformation
+    return value.upper() if value is not None else "UNKNOWN"
+
+# Register UDF
+custom_transform_udf = udf(custom_transform, StringType())
+
+# Apply UDF
+df_transformed = df.withColumn("value", custom_transform_udf(df["value"]))
+
+df_transformed.show()
+```
+
 ### Fallback Values
 
 In some cases, I might use fallback values for missing data, especially if the missing portion is not critical. The choice of fallback values depends on the context (e.g., using 0, averages, or historical data).
