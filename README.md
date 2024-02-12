@@ -1,19 +1,20 @@
 
 #ApacheSpark #Scala #PySpark #ETLpipeline #DataValidation #AutomatedAlerts #Logging #DataCleaning #.fillna() #.dropna() #SchemaEnforcement #DataQualityChecks #PrimaryKey #UniqueIdentifier #.dropDuplicates() #.distinct() #Watermarking #ChangeDataCapture #Checkpoints #BloomFilters #DistributedCaching #VersionControl #UnitTesting #IntegrationTesting #ContinuousIntegration #ContinuousDeployment #Idempotence #Upserts
 
-# How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
-
-This requires a strategic approach to ensure data quality and reliability.
+# Content
 
 ```mermaid
 graph TD
     A[Document Overview: Handling ETL Pipelines] --> B[Dealing with Missing/Corrupt Data]
-
-    B --> B1[Detection and Logging]
-    B --> B2[Handling Strategies]
-    B --> B3[Prevention]
-    B --> B4[Documentation and Communication]
+    A --> C[Schema Validation]
+    A --> D[Data Quality Checks]
+    A --> E[Handling Duplicates]
+    A --> F[Preventing Production Issues]
 ```
+
+# How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
+
+This requires a strategic approach to ensure data quality and reliability.
 
 ## Detection and Logging
 
