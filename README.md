@@ -3,14 +3,7 @@
 
 # Content
 
-```mermaid
-graph TD
-    A[Document Overview: Handling ETL Pipelines] --> B[Dealing with Missing/Corrupt Data]
-    A --> C[Schema Validation]
-    A --> D[Data Quality Checks]
-    A --> E[Handling Duplicates]
-    A --> F[Preventing Production Issues]
-```
+![Content diagram](/doytsujin/img/942acb7e-c951-11ee-a1c6-a8a15910bc43.png)
 
 # How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
 
