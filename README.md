@@ -92,6 +92,22 @@ df_stream_unique = df_stream \
 
 If target data store supports primary key or unique constraints (like a relational database), use them to prevent duplicates at the database level.
 
+```python
+from pyspark.sql.window import Window
+from pyspark.sql import functions as F
+
+# Assuming 'df' is your DataFrame and it has a 'timestamp' column in addition to 'id' and 'name'
+windowSpec = Window.partitionBy("id").orderBy(F.desc("timestamp"))
+
+# Use the row_number to assign a unique row number to each row within each partition of 'id', ordered by 'timestamp'
+df_with_rank = df.withColumn("rank", F.row_number().over(windowSpec))
+
+# Filter to keep only the top-ranked row per 'id'
+df_unique = df_with_rank.filter(F.col("rank") == 1).drop("rank")
+
+df_unique.show()
+```
+
 ## Deduplication During Data Ingestion
 
 ### Spark DataFrame/Dataset API
