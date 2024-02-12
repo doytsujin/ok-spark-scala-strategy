@@ -90,6 +90,49 @@ df_transformed.show()
 
 In some cases, I might use fallback values for missing data, especially if the missing portion is not critical. The choice of fallback values depends on the context (e.g., using 0, averages, or historical data).
 
+#### Using fillna
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("example").getOrCreate()
+
+# Sample DataFrame with null values
+df = spark.createDataFrame([(1, None, 3.5), (2, "B", None), (None, "C", 2.5)], ["col1", "col2", "col3"])
+
+# Replace nulls with a single value across the DataFrame
+df_filled = df.fillna(0)
+
+# Replace nulls with different values for each column
+df_filled_custom = df.fillna({"col1": 0, "col2": "Unknown", "col3": df.agg({"col3": "avg"}).first()[0]})
+
+df_filled.show()
+df_filled_custom.show()
+```
+
+#### Using replace
+
+```python
+# Replace specific values with others (less common for null handling but useful for conditional replacements)
+df_replaced = df.replace(to_replace="", value="Unknown", subset=["col2"])
+```
+#### Using SQL expressions with withColumn
+
+```python
+from pyspark.sql.functions import when, coalesce, lit
+
+# Conditional replacement: if col1 is null, replace with 0; otherwise, keep original value
+df_with_fallback = df.withColumn("col1", when(df["col1"].isNull(), 0).otherwise(df["col1"]))
+
+# Coalesce example: replace nulls in col3 with the average of col3
+average_col3 = df.agg({"col3": "avg"}).first()[0]
+df_with_coalesce = df.withColumn("col3", coalesce(df["col3"], lit(average_col3)))
+
+df_with_fallback.show()
+df_with_coalesce.show()
+```
+
 ### Data Repair
 
 If possible, I might correct the corrupt data by fetching it again from the source or repairing it manually if the issue is identified and isolated.
