@@ -397,7 +397,7 @@ Leverage CDC techniques if my source system supports it. CDC allows me to captur
 
 #### Using Spark Structured Streaming
 
-Apache Spark Structured Streaming provides a high-level abstraction for stream processing that can be utilized for CDC. You can read change data as a stream from sources like Kafka, which can capture changes from databases using connectors like Debezium.
+Apache Spark Structured Streaming provides a high-level abstraction for stream processing that can be utilized for CDC. I can read change data as a stream from sources like Kafka, which can capture changes from databases using connectors like Debezium.
 
 ```python
 from pyspark.sql import SparkSession
@@ -446,7 +446,7 @@ deltaTable.alias("target").merge(
   
 #### Custom Implementation
 
-For specific use cases or when using data sources without direct Spark integration, you might need to implement a custom CDC mechanism. This could involve reading from a log table, timestamp-based querying, or using APIs provided by the source database to fetch changes and then processing them with PySpark.
+For specific use cases or when using data sources without direct Spark integration, I might need to implement a custom CDC mechanism. This could involve reading from a log table, timestamp-based querying, or using APIs provided by the source database to fetch changes and then processing them with PySpark.
 
 ```python
 # Example of timestamp-based querying for changes
@@ -668,14 +668,14 @@ spark.stop()
 
 Design my ETL to handle late-arriving data gracefully. This might involve reprocessing data for a certain period (lookback window) or upserting records based on their unique identifiers.
 
-#### Understand Your Data and Define Late-Arrival Logic
+#### Understand My Data and Define Late-Arrival Logic
 
-* Identify Key Fields: Determine the unique identifiers for your records (e.g., primary keys) and any timestamp or date fields that indicate when the data was generated or modified.
-* Define Late Arrival Window: Decide on the lookback period for your data. This could be based on your data generation cycle, expected delay patterns, and the impact on downstream analytics.
+* Identify Key Fields: Determine the unique identifiers for my records (e.g., primary keys) and any timestamp or date fields that indicate when the data was generated or modified.
+* Define Late Arrival Window: Decide on the lookback period for my data. This could be based on my data generation cycle, expected delay patterns, and the impact on downstream analytics.
 
-#### Read Your Data
+#### Read My Data
 
-Assuming you're working with data stored in a distributed file system or a database accessible from Spark:
+Assuming I am working with data stored in a distributed file system or a database accessible from Spark:
 
 ```python
 from pyspark.sql import SparkSession
@@ -696,7 +696,7 @@ from pyspark.sql import functions as F
 # Define the lookback period (e.g., 7 days)
 lookback_window_days = 7
 
-# Assuming your dataframe has a 'timestamp' column indicating data generation time
+# Assuming yout dataframe has a 'timestamp' column indicating data generation time
 current_processing_date = F.current_date()
 lookback_date = F.date_sub(current_processing_date, lookback_window_days)
 
