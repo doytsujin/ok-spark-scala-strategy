@@ -42,6 +42,16 @@ graph TD
 
 This requires a strategic approach to ensure data quality and reliability.
 
+```mermaid
+graph TD
+    A[Document Overview: Handling ETL Pipelines] --> B[Dealing with Missing/Corrupt Data]
+
+    B --> B1[Detection and Logging]
+    B --> B2[Handling Strategies]
+    B --> B3[Prevention]
+    B --> B4[Documentation and Communication]
+```
+
 ## Detection and Logging
 
 ### Automated Alerts
