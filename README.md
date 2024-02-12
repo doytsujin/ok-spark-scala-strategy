@@ -1,43 +1,6 @@
 
 #ApacheSpark #Scala #PySpark #ETLpipeline #DataValidation #AutomatedAlerts #Logging #DataCleaning #.fillna() #.dropna() #SchemaEnforcement #DataQualityChecks #PrimaryKey #UniqueIdentifier #.dropDuplicates() #.distinct() #Watermarking #ChangeDataCapture #Checkpoints #BloomFilters #DistributedCaching #VersionControl #UnitTesting #IntegrationTesting #ContinuousIntegration #ContinuousDeployment #Idempotence #Upserts
 
-# Content
-
-```mermaid
-graph TD
-    A[Document Overview: Handling ETL Pipelines] --> B[Dealing with Missing/Corrupt Data]
-    A --> C[Schema Validation]
-    A --> D[Data Quality Checks]
-    A --> E[Handling Duplicates]
-    A --> F[Preventing Production Issues]
-
-    B --> B1[Detection and Logging]
-    B --> B2[Handling Strategies]
-    B --> B3[Prevention]
-    B --> B4[Documentation and Communication]
-
-    C --> C1[Initialize Spark Session]
-    C --> C2[Define Expected Schema]
-    C --> C3[Load Data with Schema Validation]
-
-    D --> D1[Data Quality Check Functions]
-    D --> D2[Example Validation and Alerting]
-
-    E --> E1[Use Primary Key/Unique Identifier]
-    E --> E2[Deduplication During Data Ingestion]
-    E --> E3[Incremental Loads]
-    E --> E4[State Management]
-
-    F --> F1[Version Control and Code Reviews]
-    F --> F2[Testing]
-    F --> F3[Environment Isolation]
-    F --> F4[CI/CD]
-    F --> F5[Monitoring and Alerting]
-    F --> F6[Rollback Strategies]
-    F --> F7[Feature Toggling]
-    F --> F8[Documentation and Communication]
-```
-
 # How would you deal with a situation where missing or corrupt data is detected on an ETL pipeline that you have built?
 
 This requires a strategic approach to ensure data quality and reliability.
