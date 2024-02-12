@@ -38,9 +38,6 @@ graph TD
     F --> F6[Rollback Strategies]
     F --> F7[Feature Toggling]
     F --> F8[Documentation and Communication]
-
-    classDef default fill:#f9f,stroke:#333,stroke-width:2px;
-    class A,B,C,D,E,F,B1,B2,B3,B4,C1,C2,C3,D1,D2,E1,E2,E3,E4,F1,F2,F3,F4,F5,F6,F7,F8 default;
 ```
 
 ## Detection and Logging
