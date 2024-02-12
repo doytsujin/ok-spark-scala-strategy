@@ -477,6 +477,47 @@ process_data_with_checkpoints(data_path, checkpoint_path)
 
 Ensure that my processing logic is idempotent. This means processing the same data multiple times does not change the outcome after the first successful processing.
 
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import lit
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("Idempotent Processing").getOrCreate()
+
+# Example DataFrame loading
+df = spark.read.format("your_input_format").load("your_input_path")
+
+# Deduplication
+df = df.dropDuplicates(['unique_key'])
+
+# Immutable Transformation Example (e.g., adding a new column)
+df = df.withColumn("processed_date", lit("your_processing_date"))
+
+# Checkpoint (useful for long pipelines)
+df.checkpoint()
+
+# Assuming existence of a function to check and perform upserts
+def upsert_to_database(df, target_table):
+    # Pseudo code for upsert logic
+    for record in df.collect():
+        # Implement actual upsert logic based on your database
+        pass
+
+# Function to process DataFrame
+def process_data(df):
+    # Apply any additional transformations
+    transformed_df = df # Add your transformations here
+
+    # Write the result to a database with upsert logic
+    upsert_to_database(transformed_df, "your_target_table")
+
+# Process the data
+process_data(df)
+
+# Note: Actual implementation details like database connections, upsert logic, and API calls are placeholders.
+# You will need to fill in these details based on your specific environment and requirements.
+```
+
 ## Use External Systems for Deduplication
 
 ### Bloom Filters
