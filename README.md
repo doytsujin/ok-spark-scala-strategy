@@ -582,6 +582,46 @@ filtered_df.show()
 
 Implement **distributed caching** mechanisms to store processed record identifiers. Check against this cache before processing records.
 
+```python
+from pyspark.sql import SparkSession
+import redis
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("DistributedCachingExample").getOrCreate()
+
+# Assuming a list of processed IDs exists
+processed_ids = ['123', '456', '789']
+
+# Example of using PySpark to cache processed IDs
+processed_ids_df = spark.createDataFrame([(id,) for id in processed_ids], ["id"])
+processed_ids_df.cache()  # Cache the DataFrame for quick access
+
+# Initialize Redis client for external caching
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+# Store processed IDs in Redis for long-term persistence
+for processed_id in processed_ids:
+    r.set(processed_id, 'processed')
+
+# Function to check if an ID has been processed
+def is_processed(id):
+    # First check PySpark cache
+    if processed_ids_df.filter(processed_ids_df.id == id).count() > 0:
+        return True
+    # Then check Redis
+    return r.exists(id)
+
+# Example: Process new records, checking against cache
+new_ids = ['123', 'abc', '789', 'xyz']
+to_process_ids = [id for id in new_ids if not is_processed(id)]
+
+# Now `to_process_ids` will only contain IDs that have not been processed ('abc', 'xyz')
+print(f"IDs to process: {to_process_ids}")
+
+# Clean up PySpark session
+spark.stop()
+```
+
 ## Handling Late Arriving Data
 
 ### Late Data Handling
