@@ -151,6 +151,39 @@ Implement stricter data validation checks at the point of ingestion as well as a
 
 Use Spark's schema enforcement capabilities to ensure that incoming data matches expected formats and types. This can prevent certain types of corruption.
 
+```python
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType
+from pyspark.sql import SparkSession
+
+# Initialize Spark session (if not already initialized)
+spark = SparkSession.builder.appName("SchemaEnforcementExample").getOrCreate()
+
+# Define the schema
+schema = StructType([
+    StructField("id", IntegerType(), True),
+    StructField("name", StringType(), True),
+    StructField("age", IntegerType(), True),
+    StructField("salary", DoubleType(), True)
+])
+
+# Read data from a CSV file with schema enforcement and handle corrupt records
+df = spark.read.format("csv")\
+               .option("header", "true")\
+               .schema(schema)\
+               .option("mode", "PERMISSIVE")\
+               .option("columnNameOfCorruptRecord", "_corrupt_record")\
+               .load("path/to/your/data.csv")
+
+# Show the DataFrame to verify successful loading and schema application
+df.show()
+
+# Optionally, filter out or deal with corrupt records
+corrupt_records = df.filter("`_corrupt_record` IS NOT NULL")
+corrupt_records.show()
+
+# Continue with your data processing...
+```
+
 ### Quality Gates
 
 Establish quality gates at critical points in the ETL process that data must pass before proceeding. This could involve checks on data completeness, accuracy, and consistency.
