@@ -90,7 +90,7 @@ df_stream_unique = df_stream \
 
 ### Primary Key Constraints
 
-If target data store supports primary key or unique constraints (like a relational database), use them to prevent duplicates at the database level.
+If target data store supports primary key or unique constraints (like a relational database), use them to prevent duplicates at the database level. For example, using window functions.
 
 ```python
 from pyspark.sql.window import Window
