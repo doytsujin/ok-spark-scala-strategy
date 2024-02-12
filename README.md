@@ -608,6 +608,34 @@ Configure alerts for anomalies or failures in my ETL processes, so I can quickly
 
 Have mechanisms in place to automatically rollback deployments if critical errors are detected.
 
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.utils import AnalysisException
+
+def run_job():
+    spark = SparkSession.builder.appName("ExampleApp").getOrCreate()
+    
+    try:
+        # Your PySpark job logic here
+        df = spark.read.csv("path/to/your/data.csv")
+        # More data processing
+        df.write.mode("overwrite").csv("path/to/output")
+    except AnalysisException as e:
+        # Log the error
+        print(f"Critical error during job execution: {e}")
+        # Signal the CI/CD tool or monitoring system to trigger a rollback
+        trigger_rollback()  # This function would need to be implemented based on your CI/CD setup
+    finally:
+        spark.stop()
+
+def trigger_rollback():
+    # Implement the logic to notify your CI/CD pipeline or monitoring system of the failure
+    pass
+
+if __name__ == "__main__":
+    run_job()
+```
+
 ### Manual Rollback Plans
 
 Prepare manual rollback plans for complex changes where automated rollbacks might not be feasible.
