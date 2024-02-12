@@ -736,7 +736,7 @@ Prepare manual rollback plans for complex changes where automated rollbacks migh
 
 ## Feature Toggling
 
-Use feature toggles to enable or disable new functionalities without deploying new code. This allows for easier rollback of features if they cause issues in production.
+Use feature toggles to enable or disable new functionalities without deploying new code. This allows for easier rollback of features if they cause issues in production. This can be done in code or with a service mesh.
 
 ```python
 import json
