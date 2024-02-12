@@ -77,7 +77,16 @@ There are strategies to prevent duplicates, especially when reprocessing the ent
 
 ### Unique Identifiers
 
-Ensure each record has a unique identifier. When loading data, check if the record's unique identifier already exists in the target data store. If it does, I can choose to skip or update the existing record.
+Ensure each record has a unique identifier. When loading data, check if the record's unique identifier already exists in the target data store. If it does, I can choose to skip or update the existing record. For example, deduplicating streaming data.
+
+```python
+from pyspark.sql.functions import col
+
+# Assuming df_stream is your streaming DataFrame
+df_stream_unique = df_stream \
+    .withWatermark("timestamp", "1 hour") \
+    .dropDuplicates(['uid', 'timestamp'])
+```
 
 ### Primary Key Constraints
 
